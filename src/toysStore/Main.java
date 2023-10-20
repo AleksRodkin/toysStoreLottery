@@ -4,10 +4,8 @@ import toysStore.models.Toy;
 import toysStore.models.ToysGenerator;
 
 import toysStore.views.MainMenu;
-import toysStore.Text;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -15,6 +13,7 @@ public class Main {
     public static void main(String[] args) {
         boolean flag = true;
         List<Toy> toysLotteryList = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
         System.out.println(Text.welcum);
         while (flag){
             MainMenu.showMenu(Text.mainMenu);
@@ -22,7 +21,6 @@ public class Main {
                 int userInput = MainMenu.selectMenu(Text.mainMenu);
                 switch (userInput){
                     case 1:
-                        Scanner scanner = new Scanner(System.in);
                         System.out.println(Text.toysGenerateCount);
                         int count = Integer.parseInt(scanner.nextLine());
                         toysLotteryList = ToysGenerator.generateToysList(count);
@@ -32,10 +30,19 @@ public class Main {
                         ToysGenerator.printToysList(toysLotteryList);
                         break;
                     case 3:
+                        System.out.println(Text.chooseToyToChangeDrop);
+                        int toyNumber = Integer.parseInt(scanner.nextLine());
+                        System.out.println(Text.inputNewDropChance);
+                        double newInputDropChance = Double.parseDouble(scanner.nextLine());
+                        System.out.println(Text.youChoseToy + toysLotteryList.get(toyNumber-1).getToyName() + Text.chosenToyWithChance + toysLotteryList.get(toyNumber-1).getDropProbability());
+                        Toy.changeDropProbability(toysLotteryList, toyNumber, newInputDropChance);
+                        System.out.println(Text.inputNewDropChanceSuccess(newInputDropChance));
+                        break;
+                    case 4:
                         toysLotteryList = new ArrayList<>(){};
                         System.out.println(Text.toysDeleted);
                         break;
-                    case 4:
+                    case 5:
                         if (toysLotteryList.isEmpty()){
                             System.out.println(Text.toysListIsEmpty);
                         } else {
@@ -48,8 +55,8 @@ public class Main {
                             }
                         }
                         break;
-                    case 5:
-                        System.out.println("Выход");
+                    case 6:
+                        System.out.println(Text.goodBye);
                         flag = false;
                         break;
                 }

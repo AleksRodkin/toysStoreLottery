@@ -1,5 +1,7 @@
 package toysStore.models;
 
+import toysStore.Text;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -15,6 +17,10 @@ public class Toy {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getToyName() {
@@ -33,7 +39,7 @@ public class Toy {
         return dropProbability;
     }
 
-    public void setDropProbability(int dropProbability) {
+    public void setDropProbability(double dropProbability) {
         this.dropProbability = dropProbability;
     }
 
@@ -44,12 +50,19 @@ public class Toy {
         this.dropProbability = dropProbability;
     }
 
+    public static void changeDropProbability(List<Toy> toys, int toyId, double newDrop){
+        toys.get(toyId - 1).setDropProbability(newDrop);
+    }
+
     public void reduceByOne(Toy toy){
         toy.setQuantity(getQuantity() - 1);
     }
 
     public void deleteToyFromList(List<Toy> toys, int index){
         toys.remove(index);
+        for (int i = 0; i < toys.size(); i++) {
+            toys.get(i).setId(i+1);
+        }
     }
 
     public static int playLottery(List<Toy> toys){
